@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/duthienkt/absol-svg#readme",
   "dependencies": {
-    "absol": "^1.8.5"
+    "absol": "^1.12.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -5,8 +5,11 @@ var _ = Core._;
 var $ = Core.$;
 
 function Shape() {
-    var res = _('path');
-    return res;
+};
+
+
+Shape.render = function(){
+    return _('path');
 };
 
 Shape.prototype.begin = function () {
@@ -26,7 +29,7 @@ Shape.prototype.moveTo = function (x, y) {
 };
 
 Shape.prototype.closePath = function () {
-    this.buildingPath += 'z';
+    this.buildingPath += 'z'; 
     return this;
 }
 
