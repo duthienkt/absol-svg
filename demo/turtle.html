@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shape</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://absol.cf/hightlight/styles/default.css">
+    <!-- <link rel="stylesheet" href="https://absol.cf/materialdesignicons/materialdesignicons.min.css"> -->
+    <script src="../dist/absol-svg.js?"></script>
+
+    <script src="https://absol.cf/hightlight/highlight.pack.js"></script>
+    <style>
+        .dark.bg {
+            background-color: rgba(30, 30, 32, 1);
+            /* background-color: white; */
+
+        }
+
+        .bg {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border: solid 1px rgb(30, 30, 32);
+        }
+
+        .turtle-path{
+            stroke: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shape</h1>
+    <script class="viewable">
+        var _ = ASvg._;
+        var $ = ASvg.$;
+        var Turtle = ASvg.Turtle;
+
+        var canvas = _({
+            tag: 'svg',
+            attr: {
+                width: '400px',
+                height: '400px'
+            }
+        }).addTo(document.body);
+        
+        var turtle = new Turtle()
+            .moveTo(200, 250)
+            .hLineBy(100)
+            .vLineBy(100)
+            .hLineBy(-100)
+            .closePath()
+            // .lineTo(0,0)
+            .cubicBezierCurveTo(200,0,250,0,100,100)
+            .smoothCubicBezierCurveBy(0,250,100,150)
+            ;
+
+        var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.getPath());
+
+    </script>
+
+
+    <script src="./autohightlighting.js?"></script>
+
+</body>
+
+</html> 
