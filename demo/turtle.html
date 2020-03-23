@@ -38,7 +38,7 @@
         var canvas = _({
             tag: 'svg',
             attr: {
-                width: '400px',
+                width: '900px',
                 height: '400px'
             }
         }).addTo(document.body);
@@ -50,11 +50,12 @@
             .hLineBy(-100)
             .closePath()
             // .lineTo(0,0)
-            .cubicBezierCurveTo(200,0,250,0,100,100)
-            .smoothCubicBezierCurveBy(0,250,100,150)
+            .cubicBezierTo(200,0,250,0,100,100)
+            .smoothCubicBezierBy(0,250,100,150)
             ;
 
         var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.getPath());
+        var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.clone().translate(400, 0).getPath());
 
     </script>
 

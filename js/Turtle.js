@@ -1,6 +1,19 @@
 import Vec2 from 'absol/src/Math/Vec2';
 
+/**
+ * @typedef {TurtleCommand}
+ * @property {String} cmd
+ * @property {String} action
+ * @property {Array<Number>} args
+ * @property {Vec2} dest
+ * @property {Vec2} tangent
+ */
+
+
 function Turtle() {
+    /**
+     * @type {Array<TurtleCommand>}
+     */
     this._commands = [];
     this._lastCommandName = null;
     /**
@@ -153,7 +166,6 @@ Turtle.prototype.hLineBy = function (x) {
     });
     return this;
 };
-
 
 
 /**
@@ -387,7 +399,7 @@ Turtle.prototype.smoothQuadraticBezierBy = function (cdx, cdy, dx, dy) {
  * @param {Number} y
  * @returns {Turtle}
  */
-Turtle.prototype.arcTo = function (rx, ry, angle, large ,sweep,x, y) {
+Turtle.prototype.arcTo = function (rx, ry, angle, large, sweep, x, y) {
     //todo: wrong_tangent
     this._tangent = this._pos;
     this._pos = new Vec2(x, y);
@@ -425,12 +437,13 @@ Turtle.prototype.arcBy = function (rx, ry, angle, large, sweep, dx, dy) {
 
 
 
-
+/**
+ * @returns {String} 
+ */
 Turtle.prototype.closePath = function () {
     this._tangent = this._pos;
     this._pos = this._startPos;
     this._tangent = this._pos.sub(this._tangent);
-
     this._commands.push({
         cmd: 'z',
         action: 'closePath',
@@ -441,6 +454,53 @@ Turtle.prototype.closePath = function () {
 };
 
 
+/**
+ * @param {Number} x
+ * @param {Number} y
+ * @returns {Turtle}
+ */
+Turtle.prototype.translate = function (dx, dy) {
+    var command;
+    var deltaVec = new Vec2(dx, dy);
+    for (var i = 0; i < this._commands.length; ++i) {
+        command = this._commands[i];
+        command.dest = command.dest.add(deltaVec);
+        switch (command.cmd) {
+            case 'M':
+            case 'L':
+                command.args[0] = command.dest.x;
+                command.args[1] = command.dest.y;
+                break;
+            case 'H':
+                command.args[0] = command.dest.x;
+                break;
+            case 'V':
+                command.args[0] = command.dest.y;
+                break;
+            case 'C':
+                command.args[0] += dx;
+                command.args[1] += dy;
+                command.args[2] += dx;
+                command.args[3] += dy;
+                command.args[4] = command.dest.x;
+                command.args[5] = command.dest.y;
+                break;
+            case 'Q':
+                command.args[0] += dx;
+                command.args[1] += dy;
+                command.args[3] = command.dest.x;
+                command.args[4] = command.dest.y;
+                break;
+
+            case 'A':
+                command.args[5] = command.dest.x;
+                command.args[6] = command.dest.y;
+                break;
+        }
+
+    }
+    return this;
+};
 
 
 /**
@@ -453,7 +513,7 @@ Turtle.prototype.getPath = function () {
     }).join(' ');
 };
 
-Turtle.clone = function () {
+Turtle.prototype.clone = function () {
     var res = new Turtle();
     res._commands.push.apply(res._commands, this._commands);
     res._lastCommandName = this._commands;
