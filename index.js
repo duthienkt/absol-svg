@@ -1,13 +1,13 @@
-
-import Core from "./js/Core";
-import  "./js/Shape";
-import Turtle from "./js/Turtle";
+import Core from './js/svg/Core';
+import install from "./js/svg/install";
+import Turtle from "./js/controller/Turtle";
 
 var ASvg ={
     core : Core,
     _ : Core._,
     $ : Core.$,
-    Turtle:Turtle
+    Turtle:Turtle,
+    install: install
 };
 
 
