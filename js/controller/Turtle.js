@@ -18,7 +18,6 @@ function Turtle() {
      * @type {Array<TurtleCommand>}
      */
     this._commands = [];
-    this._lastCommandName = null;
     /**
      * @type {Vec2}
      */
@@ -40,8 +39,8 @@ function Turtle() {
  * @returns {Turtle}
  */
 Turtle.prototype.moveBy = function (dx, dy) {
-    this._pos = this._pos.add(new Vec2(dx, dy));
     this._tangent = new Vec2(dx, dy);
+    this._pos = this._pos.add(this._tangent);
     this._startPos = this._pos;
     this._commands.push({
         cmd: 'm',
@@ -74,6 +73,34 @@ Turtle.prototype.moveTo = function (x, y) {
     return this;
 };
 
+Turtle.prototype.moveForward = function (length) {
+    var dV = this._tangent.normalized().mult(length);
+    this._pos = this._pos.add(dV);
+    this._startPos = this._pos;
+    this._commands.push({
+        cmd: 'm',
+        action: 'moveTo',
+        args: [dV.x, dV.y],
+        dest: this._pos,
+        tangent: this._tangent
+    });
+    return this;
+};
+
+Turtle.prototype.lineForward = function (length) {
+    var dV = this._tangent.normalized().mult(length);
+    this._pos = this._pos.add(dV);
+    this._startPos = this._pos;
+    this._commands.push({
+        cmd: 'l',
+        action: 'moveTo',
+        args: [dV.x, dV.y],
+        dest: this._pos,
+        tangent: this._tangent
+    });
+    return this;
+};
+
 
 /**
  * @param {Number} dx
@@ -82,7 +109,7 @@ Turtle.prototype.moveTo = function (x, y) {
  */
 Turtle.prototype.lineBy = function (dx, dy) {
     this._tangent = new Vec2(x, y);
-    this._pos = this._pos.add(this._startPos);
+    this._pos = this._pos.add(this._tangent);
     this._commands.push({
         cmd: 'l',
         action: 'lineBy',
@@ -121,7 +148,7 @@ Turtle.prototype.lineTo = function (x, y) {
  */
 Turtle.prototype.lineBy = function (dx, dy) {
     this._tangent = new Vec2(dx, dy);
-    this._pos = this._pos.add(this._startPos);
+    this._pos = this._pos.add(this._tangent);
     this._commands.push({
         cmd: 'l',
         action: 'lineBy',
@@ -157,7 +184,7 @@ Turtle.prototype.hLineTo = function (x) {
  */
 Turtle.prototype.hLineBy = function (x) {
     this._tangent = new Vec2(x, 0);
-    this._pos = this._pos.add(new Vec2(x, 0));
+    this._pos = this._pos.add(this._tangent);
     this._commands.push({
         cmd: 'h',
         action: 'hLineBy',
@@ -193,7 +220,7 @@ Turtle.prototype.vLineTo = function (y) {
  */
 Turtle.prototype.vLineBy = function (y) {
     this._tangent = new Vec2(0, y);
-    this._pos = this._pos.add(new Vec2(0, y));
+    this._pos = this._pos.add(this._tangent);
     this._commands.push({
         cmd: 'v',
         action: 'vLineBy',
@@ -350,8 +377,8 @@ Turtle.prototype.quadraticBezierBy = function (cdx, cdy, dx, dy) {
  * @returns {Turtle}
  */
 Turtle.prototype.smoothQuadraticBezierTo = function (cx, cy, x, y) {
-    this._tangent = new Vec(cx, cy);
-    this._pos = new Vec(x, y);
+    this._tangent = new Vec2(cx, cy);
+    this._pos = new Vec2(x, y);
     this._tangent = this._pos.sub(this._tangent);
     this._commands.push({
         cmd: 'T',
@@ -373,7 +400,7 @@ Turtle.prototype.smoothQuadraticBezierTo = function (cx, cy, x, y) {
  */
 Turtle.prototype.smoothQuadraticBezierBy = function (cdx, cdy, dx, dy) {
     this._tangent = this._pos.add(new Vec(cdx, cdy));
-    this._pos = new Vec(dx, dy);
+    this._pos = new Vec2(dx, dy);
     this._tangent = this._pos.sub(this._tangent);
     this._commands.push({
         cmd: 't',
@@ -386,16 +413,56 @@ Turtle.prototype.smoothQuadraticBezierBy = function (cdx, cdy, dx, dy) {
 };
 
 
-/**
+/***
+ *
+ * @param {Number} rx
+ * @param {Number} ry
+ * @param {Number} angle
+ * @param {Number} large
+ * @param {Number} sweep
  * @param {Number} x
  * @param {Number} y
- * @returns {Turtle}
+ * @return {Turtle}
  */
 Turtle.prototype.arcTo = function (rx, ry, angle, large, sweep, x, y) {
-    //todo: wrong_tangent
     this._tangent = this._pos;
     this._pos = new Vec2(x, y);
-    this._tangent = this._pos.sub(this._tangent);
+
+
+    var AB = this._pos.sub(this._tangent);
+
+
+    //in ellipse
+    var AB_inE = AB.rotate(-angle / 180 * Math.PI);
+    //in circle
+    var AB_inC = new Vec2(AB_inE.x / rx, AB_inE.y / ry);
+
+    var AH_inC;
+    var HO_length_inC;
+    var AH_length_inC;
+    var HO_inC;
+    var BO_inC;
+    var tangent_inC;
+    var tangent_inE;
+
+    AH_inC = AB_inC.div(2);
+    AH_length_inC = AH_inC.abs();
+    HO_length_inC = Math.sqrt(1 - AH_length_inC * AH_length_inC);
+    if (!sweep != !large) {
+        HO_inC = AB_inC.rotate90().normalized().mult(HO_length_inC);
+        BO_inC = AH_inC.inv().add(HO_inC);
+        tangent_inC = BO_inC.rotate90().inv();
+    }
+    else {
+        HO_inC = AB_inC.rotate90().inv().normalized().mult(HO_length_inC);//ok
+        BO_inC = AH_inC.inv().add(HO_inC);
+        tangent_inC = BO_inC.rotate90();
+    }
+    if (large) tangent_inC = tangent_inC.inv();
+
+    tangent_inE = new Vec2(tangent_inC.x * rx, tangent_inC.y * ry);
+    this._tangent = tangent_inE.rotate(angle / 180 * Math.PI);
+
     this._commands.push({
         cmd: 'A',
         action: 'lineTo',
@@ -407,15 +474,21 @@ Turtle.prototype.arcTo = function (rx, ry, angle, large, sweep, x, y) {
 };
 
 
-/**
+/***
+ *
+ * @param {Number} rx
+ * @param {Number} ry
+ * @param {Number} angle
+ * @param {Number} large
+ * @param {Number} sweep
  * @param {Number} dx
  * @param {Number} dy
- * @returns {Turtle}
+ * @return {Turtle}
  */
 Turtle.prototype.arcBy = function (rx, ry, angle, large, sweep, dx, dy) {
     //todo: wrong_tangent
     this._tangent = new Vec2(dx, dy);
-    this._pos = this._pos.add(this._startPos);
+    this._pos = this._pos.add(this._tangent);
     this._commands.push({
         cmd: 'a',
         action: 'arcBy',
@@ -428,7 +501,7 @@ Turtle.prototype.arcBy = function (rx, ry, angle, large, sweep, dx, dy) {
 
 
 /**
- * @returns {String}
+ * @returns {Turtle}
  */
 Turtle.prototype.closePath = function () {
     this._tangent = this._pos;
@@ -445,8 +518,8 @@ Turtle.prototype.closePath = function () {
 
 
 /**
- * @param {Number} x
- * @param {Number} y
+ * @param {Number} dx
+ * @param {Number} dy
  * @returns {Turtle}
  */
 Turtle.prototype.translate = function (dx, dy) {
@@ -510,7 +583,6 @@ Turtle.prototype.getPath = function () {
  */
 Turtle.prototype.reset = function () {
     this._commands = [];
-    this._lastCommandName = null;
     this._pos = new Vec2(0, 0);
     this._startPos = this._pos;
     this._tangent = new Vec2(0, 0);
@@ -520,7 +592,6 @@ Turtle.prototype.reset = function () {
 Turtle.prototype.clone = function () {
     var res = new Turtle();
     res._commands.push.apply(res._commands, this._commands);
-    res._lastCommandName = this._commands;
     res._pos = this._pos.copy();
     res._startPos = this._startPos.copy();
     res._tangent = this._tangent.copy()
