@@ -96,5 +96,56 @@ Object.defineProperty(CContainerBox.prototype, 'size', {
     }
 });
 
+Object.defineProperty(CContainerBox.prototype, 'x', {
+    /***
+     *
+     * @param {number} x
+     */
+    set: function (x) {
+        this.setPosition(x, this._y);
+    },
+    /***
+     *
+     * @return {number}
+     */
+    get: function () {
+        return this._x;
+    }
+});
+
+Object.defineProperty(CContainerBox.prototype, 'y', {
+    /***
+     *
+     * @param {number} x
+     */
+    set: function (y) {
+        this.setPosition(this._x, y);
+    },
+    /***
+     *
+     * @return {number}
+     */
+    get: function () {
+        return this._y;
+    }
+});
+
+
+Object.defineProperty(CContainerBox.prototype, 'position', {
+    /***
+     *
+     * @param {{x: number, y:number}} position
+     */
+    set: function (position) {
+        this.setPosition(position.x, position.y);
+    },
+    /***
+     *
+     * @return {{x: number, y:number}}
+     */
+    get: function () {
+        return { x: this._x, y: this._y };
+    }
+});
 
 export default CContainerBox;
