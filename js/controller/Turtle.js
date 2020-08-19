@@ -1,15 +1,18 @@
 import Vec2 from 'absol/src/Math/Vec2';
 
 /**
- * @typedef {TurtleCommand}
+ * @typedef TurtleCommand
  * @property {String} cmd
  * @property {String} action
- * @property {Array<Number>} args
+ * @property {Number[]} args
  * @property {Vec2} dest
  * @property {Vec2} tangent
  */
 
-
+/***
+ *
+ * @constructor
+ */
 function Turtle() {
     /**
      * @type {Array<TurtleCommand>}
@@ -29,6 +32,7 @@ function Turtle() {
      */
     this._tangent = new Vec2(0, 0);
 }
+
 
 /**
  * @param {Number} dx
@@ -69,8 +73,6 @@ Turtle.prototype.moveTo = function (x, y) {
     });
     return this;
 };
-
-
 
 
 /**
@@ -129,7 +131,6 @@ Turtle.prototype.lineBy = function (dx, dy) {
     });
     return this;
 };
-
 
 
 /**
@@ -251,8 +252,6 @@ Turtle.prototype.cubicBezierBy = function (c1dx, c1dy, c2dx, c2dy, dx, dy) {
 };
 
 
-
-
 /**
  * @param {Number} c2x
  * @param {Number} c2y
@@ -273,7 +272,6 @@ Turtle.prototype.smoothCubicBezierTo = function (c2x, c2y, x, y) {
     });
     return this;
 };
-
 
 
 /**
@@ -298,7 +296,6 @@ Turtle.prototype.smoothCubicBezierBy = function (c2dx, c2dy, dx, dy) {
 };
 
 
-
 /**
  * @param {Number} cx
  * @param {Number} cy
@@ -307,8 +304,8 @@ Turtle.prototype.smoothCubicBezierBy = function (c2dx, c2dy, dx, dy) {
  * @returns {Turtle}
  */
 Turtle.prototype.quadraticBezierTo = function (cx, cy, x, y) {
-    this._tangent = new Vec(cx, cy);
-    this._pos = new Vec(x, y);
+    this._tangent = new Vec2(cx, cy);
+    this._pos = new Vec2(x, y);
     this._tangent = this._pos.sub(this._tangent);
     this._commands.push({
         cmd: 'Q',
@@ -331,8 +328,8 @@ Turtle.prototype.quadraticBezierTo = function (cx, cy, x, y) {
  * @returns {Turtle}
  */
 Turtle.prototype.quadraticBezierBy = function (cdx, cdy, dx, dy) {
-    this._tangent = this._pos.add(new Vec(cdx, cdy));
-    this._pos = new Vec(dx, dy);
+    this._tangent = this._pos.add(new Vec2(cdx, cdy));
+    this._pos = new Vec2(dx, dy);
     this._tangent = this._pos.sub(this._tangent);
     this._commands.push({
         cmd: 'q',
@@ -343,8 +340,6 @@ Turtle.prototype.quadraticBezierBy = function (cdx, cdy, dx, dy) {
     });
     return this;
 };
-
-
 
 
 /**
@@ -369,7 +364,6 @@ Turtle.prototype.smoothQuadraticBezierTo = function (cx, cy, x, y) {
 };
 
 
-
 /**
  * @param {Number} cdx
  * @param {Number} cdy
@@ -390,8 +384,6 @@ Turtle.prototype.smoothQuadraticBezierBy = function (cdx, cdy, dx, dy) {
     });
     return this;
 };
-
-
 
 
 /**
@@ -435,10 +427,8 @@ Turtle.prototype.arcBy = function (rx, ry, angle, large, sweep, dx, dy) {
 };
 
 
-
-
 /**
- * @returns {String} 
+ * @returns {String}
  */
 Turtle.prototype.closePath = function () {
     this._tangent = this._pos;
@@ -513,12 +503,27 @@ Turtle.prototype.getPath = function () {
     }).join(' ');
 };
 
+
+/***
+ *
+ * @return {Turtle}
+ */
+Turtle.prototype.reset = function () {
+    this._commands = [];
+    this._lastCommandName = null;
+    this._pos = new Vec2(0, 0);
+    this._startPos = this._pos;
+    this._tangent = new Vec2(0, 0);
+    return this;
+};
+
 Turtle.prototype.clone = function () {
     var res = new Turtle();
     res._commands.push.apply(res._commands, this._commands);
     res._lastCommandName = this._commands;
-    res._x = this._x;
-    res._y = this._y;
+    res._pos = this._pos.copy();
+    res._startPos = this._startPos.copy();
+    res._tangent = this._tangent.copy()
     return res;
 };
 
