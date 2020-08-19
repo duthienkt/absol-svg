@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Svg Canvas</title>
+    <script src="../dist/absol-svg.js?date=<?php  echo stat('../dist/absol-svg.js')['mtime'];?>"></script>
+</head>
+<body>
+<script>
+    var _ = ASvg._;
+    var $ = ASvg.$;
+
+    _({
+            tag: 'svgcanvas',
+            style: {
+                width: 'calc(100vw - 40px)',
+                height: 'calc(100vh - 40px)',
+                boxShadow: '0px 0px 0px 1px rgba(0,0,0,0.75)'
+            }
+        }
+    ).addTo(document.body);
+
+
+</script>
+</body>
+</html>
