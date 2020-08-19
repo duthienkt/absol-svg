@@ -78,22 +78,6 @@ Object.defineProperty(CContainerBox.prototype, 'height', {
     }
 });
 
-Object.defineProperty(CContainerBox.prototype, 'height', {
-    /***
-     *
-     * @param {number} height
-     */
-    set: function (height) {
-        this.setSize(this._width, height);
-    },
-    /***
-     *
-     * @return {number}
-     */
-    get: function () {
-        return this._height;
-    }
-});
 
 Object.defineProperty(CContainerBox.prototype, 'size', {
     /***
