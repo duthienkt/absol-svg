@@ -321,5 +321,5 @@ Shape.prototype.curveTo = function (x, y, x0, y0, x1, y1) {
     return this;
 };
 
-Core.install('shape', Shape);
+Core.install(Shape);
 export default Shape;
