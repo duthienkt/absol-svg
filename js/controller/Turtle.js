@@ -101,6 +101,26 @@ Turtle.prototype.lineForward = function (length) {
     return this;
 };
 
+/***
+ *
+ * @param {Number} angle - degree
+*  @returns {Turtle}
+ */
+Turtle.prototype.rotateDirTo = function (angle) {
+    this._tangent = Vec2.fromDirection(angle * Math.PI / 180);
+    return this;
+};
+
+/***
+ *
+ * @param {Number} dAngle
+ * @returns {Turtle}
+ */
+Turtle.prototype.rotateDirBy = function (dAngle) {
+    this._tangent = this._tangent.rotate(dAngle * Math.PI / 180);
+    return this;
+};
+
 
 /**
  * @param {Number} dx
