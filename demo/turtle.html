@@ -22,45 +22,42 @@
             border: solid 1px rgb(30, 30, 32);
         }
 
-        .turtle-path{
+        .turtle-path {
             stroke: black;
+            fill: none;
         }
     </style>
 </head>
 
 <body>
-    <h1>Shape</h1>
-    <script class="viewable">
-        var _ = ASvg._;
-        var $ = ASvg.$;
-        var Turtle = ASvg.Turtle;
+<h1>Shape</h1>
+<script class="viewable">
+    var _ = ASvg._;
+    var $ = ASvg.$;
+    var Turtle = ASvg.Turtle;
 
-        var canvas = _({
-            tag: 'svg',
-            attr: {
-                width: '900px',
-                height: '400px'
-            }
-        }).addTo(document.body);
-        
-        var turtle = new Turtle()
-            .moveTo(200, 250)
-            .hLineBy(100)
-            .vLineBy(100)
-            .hLineBy(-100)
-            .closePath()
-            // .lineTo(0,0)
-            .cubicBezierTo(200,0,250,0,100,100)
-            .smoothCubicBezierBy(0,250,100,150)
-            ;
+    var canvas = _({
+        tag: 'svg',
+        attr: {
+            width: '900px',
+            height: '700px'
+        }
+    }).addTo(document.body);
 
-        var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.getPath());
-        var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.clone().translate(400, 0).getPath());
+    var d = 2;
+    var turtle = new Turtle()
+        .moveTo(450, 350);
+    for (var i = 0; i < 800; ++i) {
+        turtle.lineForward(d);
+        d *= 1.005;
+        turtle.rotateDirBy(30);
+    }
+    var p = _('path.turtle-path').addTo(canvas).attr('d', turtle.getPath());
 
-    </script>
+</script>
 
 
-    <script src="./autohightlighting.js?"></script>
+<script src="./autohightlighting.js?"></script>
 
 </body>
 
