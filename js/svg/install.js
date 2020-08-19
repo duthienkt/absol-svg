@@ -1,9 +1,10 @@
 import Shape from "./Shape";
 import Dom from "absol/src/HTML5/Dom";
 import Svg from "absol/src/HTML5/Svg";
+import SvgCanvas from "./SvgCanvas";
 
 export var Creators = [
-    Shape
+    Shape, SvgCanvas
 ];
 
 /***
