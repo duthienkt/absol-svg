@@ -1,7 +1,6 @@
-import Core from "./svg/Core";
+import Core from "./Core";
 import AElementNS from "absol/src/HTML5/AElementNS";
-import Turtle from "./controller/Turtle";
-import Vec2 from "absol/src/Math/Vec2";
+import Turtle from "../controller/Turtle";
 
 
 var _ = Core._;
