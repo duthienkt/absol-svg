@@ -57,7 +57,7 @@ Object.defineProperty(CContainerBox.prototype, 'width', {
      * @return {number}
      */
     get: function () {
-        return this.width;
+        return this._width;
     }
 });
 
