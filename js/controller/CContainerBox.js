@@ -21,6 +21,7 @@ function CContainerBox($g) {
  *
  * @param {number} width
  * @param {number} height
+ * @returns {CContainerBox}
  */
 CContainerBox.prototype.setSize = function (width, height) {
     this._width = width;
@@ -32,6 +33,7 @@ CContainerBox.prototype.setSize = function (width, height) {
  *
  * @param {number} x
  * @param {number} y
+ * @returns {CContainerBox}
  */
 CContainerBox.prototype.setPosition = function (x, y) {
     if (x === 0 && y === 0) {
@@ -116,7 +118,7 @@ Object.defineProperty(CContainerBox.prototype, 'x', {
 Object.defineProperty(CContainerBox.prototype, 'y', {
     /***
      *
-     * @param {number} x
+     * @param {number} y
      */
     set: function (y) {
         this.setPosition(this._x, y);
