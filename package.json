@@ -1,6 +1,6 @@
 {
   "name": "absol-svg",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "HTML5 svg",
   "main": "index.js",
   "scripts": {
