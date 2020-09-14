@@ -20,7 +20,7 @@ function CSvgBox($svg) {
 CSvgBox.prototype.setSize = function (width, height) {
     this.$svg.attr('width', width + '');
     this.$svg.attr('height', height + '');
-    this.$svg.attr('viewBox', [0.5, 0.5, width, height].join(' '));
+    this.$svg.attr('viewBox', [-0.5, -0.5, width, height].join(' '));
     this._width = width;
     this._height = height;
 };
