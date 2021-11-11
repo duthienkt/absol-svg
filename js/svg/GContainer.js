@@ -18,4 +18,7 @@ GContainer.render = function () {
     return _('g');
 };
 
+
+Core.install(GContainer);
+
 export default GContainer;

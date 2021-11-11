@@ -1,7 +1,7 @@
 import Core from "./Core";
 import AElementNS from "absol/src/HTML5/AElementNS";
 import ResizeSystem from "absol/src/HTML5/ResizeSystem";
-import CSvgBox from "../controller/CSvgBox";
+import CCanvasBox from "../controller/CCanvasBox";
 
 var _ = Core._;
 var $ = Core.$;
@@ -13,10 +13,10 @@ var $ = Core.$;
  */
 function SvgCanvas() {
     var thisSC = this;
-    this.box = new CSvgBox(this);
+    this.box = new CCanvasBox(this);
     this.$attachhook = $('sattachhook', this)
         .on('attached', this.eventHandler.svgAttached);
-    this.$attachhook.requestUpdateSize = function (){
+    this.$attachhook.requestUpdateSize = function () {
         thisSC.updateSize();
     }
 }
@@ -27,7 +27,7 @@ SvgCanvas.tag = 'svgcanvas';
 SvgCanvas.render = function () {
     return _({
         tag: 'svg',
-        class:'ag-canvas',
+        class: 'ag-canvas',
         child: 'sattachhook'
     });
 };
@@ -47,8 +47,7 @@ SvgCanvas.prototype._updateCanvasSize = function () {
 };
 
 
-
-SvgCanvas.prototype.updateSize = function (){
+SvgCanvas.prototype.updateSize = function () {
     this._updateCanvasSize();
 };
 
@@ -57,7 +56,7 @@ SvgCanvas.prototype.updateSize = function (){
  */
 SvgCanvas.eventHandler = {};
 
-SvgCanvas.eventHandler.svgAttached = function (){
+SvgCanvas.eventHandler.svgAttached = function () {
     ResizeSystem.add(this.$attachhook);
     this.updateSize();
 }
