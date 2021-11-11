@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Svg View Box</title>
+    <script src="../dist/absol-svg.js?"></script>
+</head>
+<body>
+<script>
+
+    var Vec2 = absol.Vec2;
+    var viewer = absol._svg('svgviewbox').addTo(document.body)
+        .addStyle({width: '90vw', height: '90vh'});
+    var g = absol._svg('g').addTo(viewer);
+    var text = absol._svg({
+        tag: 'text',
+        attr: {
+            x: 100, y: 100
+        },
+        child: {text: 'Đây là text ở (100, 100)'}
+    });
+    g.addChild(text);
+    viewer.box.origin = new Vec2(35, 52);
+    viewer.box.zoom = 5;
+</script>
+</body>
+</html>
