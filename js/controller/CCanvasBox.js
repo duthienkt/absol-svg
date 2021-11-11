@@ -3,7 +3,7 @@
  * @param {SvgCanvas} $svg
  * @constructor
  */
-function CSvgBox($svg) {
+function CCanvasBox($svg) {
     this.$svg = $svg;
     this._width = 0;
     this._height = 0;
@@ -17,7 +17,7 @@ function CSvgBox($svg) {
  * @param {number} width
  * @param {number} height
  */
-CSvgBox.prototype.setSize = function (width, height) {
+CCanvasBox.prototype.setSize = function (width, height) {
     this.$svg.attr('width', width + '');
     this.$svg.attr('height', height + '');
     this.$svg.attr('viewBox', [-0.5, -0.5, width, height].join(' '));
@@ -25,7 +25,7 @@ CSvgBox.prototype.setSize = function (width, height) {
     this._height = height;
 };
 
-Object.defineProperty(CSvgBox.prototype, 'width', {
+Object.defineProperty(CCanvasBox.prototype, 'width', {
     /***
      *
      * @param {Number} width
@@ -42,7 +42,7 @@ Object.defineProperty(CSvgBox.prototype, 'width', {
     }
 });
 
-Object.defineProperty(CSvgBox.prototype, 'height', {
+Object.defineProperty(CCanvasBox.prototype, 'height', {
     /***
      *
      * @param {Number} height
@@ -60,7 +60,7 @@ Object.defineProperty(CSvgBox.prototype, 'height', {
 });
 
 
-Object.defineProperty(CSvgBox.prototype, 'size', {
+Object.defineProperty(CCanvasBox.prototype, 'size', {
     /***
      *
      * @param {{width: number, height:number}} size
@@ -78,4 +78,4 @@ Object.defineProperty(CSvgBox.prototype, 'size', {
 });
 
 
-export default CSvgBox;
+export default CCanvasBox;
