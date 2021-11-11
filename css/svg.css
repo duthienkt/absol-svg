@@ -1,0 +1,15 @@
+.as-view-box{
+    display: inline-block;
+    --zoom-rev: 1;
+}
+
+
+.ag-view-box-grid-primary{
+    stroke-width: var(--zoom-rev);
+    stroke: #ddd;
+}
+
+.ag-view-box-grid-secondary {
+    stroke-width: calc(var(--zoom-rev) / 2);
+    stroke: #eee;
+}

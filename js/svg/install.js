@@ -4,9 +4,11 @@ import Svg from "absol/src/HTML5/Svg";
 import SvgCanvas from "./SvgCanvas";
 import GContainer from "./GContainer";
 import SvgViewBox from "./SvgViewBox";
+import GViewBoxGrid from "./GViewBoxGrid";
 
 export var Creators = [
-    Shape, SvgCanvas, GContainer, SvgViewBox
+    Shape, SvgCanvas, GContainer, SvgViewBox,
+    GViewBoxGrid
 ];
 
 /***
