@@ -1,4 +1,3 @@
-import CSvgBox from "./CSvgBox";
 
 /***
  *
