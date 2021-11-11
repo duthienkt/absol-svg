@@ -46,5 +46,6 @@ SvgViewBox.eventHandler.svgAttached = function () {
     ResizeSystem.add(this.$attachhook);
 };
 
+Core.install(SvgViewBox);
 
 export default SvgViewBox;
