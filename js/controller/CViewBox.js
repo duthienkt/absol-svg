@@ -79,7 +79,7 @@ Object.defineProperty(CViewBox.prototype, 'origin', {
         this.updateViewBox();
     },
     get: function () {
-        return this._zoom;
+        return this._origin;
     }
 });
 
